@@ -1,12 +1,20 @@
+<?php define('ROOT_PATH', '/projet cahier de texte en ligne');?>
+<?php 
+    include 'C:\PHP\htdocs\projet cahier de texte en ligne\helpers\util_func.php';
+    if (isset($_POST['logout']) && $_POST['logout'] === 'true') {
+        util::logout();
+        exit();
+    }
+?>
 <header>
     <div class="logo">
-        <img src="../assets/Logo-ESATIC.png" alt="Logo">
+        <img src="<?php echo ROOT_PATH;?>/assets/Logo-ESATIC.png" alt="Logo">
     </div>
     <nav>
         <ul>
         <li><a href="../index.html">Accueil</a></li>
         <?php if (isset($_SESSION['role'])&& $_SESSION['role'] == 'teacher'):?>
-            <li><a href="../TableauSaisir.php">Saisir cours</a></li>
+            <li><a href="<?php echo ROOT_PATH;?>/TableauSaisir.php">Saisir cours</a></li>
         <?php endif ?>
         <?php if (isset($_SESSION['role'])&& $_SESSION['role'] == 'admin'):?>
             <li><a href="../admins/manage.php">Manage</a></li>
@@ -16,11 +24,15 @@
         <?php endif ?>
         <li><a href="#">Vacation</a></li>
         <li><a href="#">Requete</a></li>
-        <li><a href="#">Evalution</a></li>
+        <li>
+            <a>
+                <form style="display: inline-block;color: white;" id="logoutForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post"><input type="hidden" name="logout" value="true"><button style="  border: none;background-color: transparent;color: white;" type="submit">Logout</button></form>
+            </a>
+        </li>
         </ul>
     </nav>
     <div class="profile">
-        <img src="../assets/pngegg.png" alt="Profile Photo">
+        <img src="<?php echo ROOT_PATH;?>/assets/pngegg.png" alt="Profile Photo">
     </div>
 </header>
 

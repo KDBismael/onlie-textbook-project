@@ -24,9 +24,11 @@
             $res=$this->request($this->name,$this->teacher);
             if($res){
                 $this->Conexion($res,$this->teacher,"Location: ./Menu.php",$this->name,$this->password);
+                echo "Teacher";
             }else{
                 $res=$this->request($this->name,$this->admin);
                 $this->Conexion($res,$this->admin,"Location: ./admins/adminTable.php",$this->name,$this->password);
+                echo "Admin";
             }
         }
         private function Conexion($res,$role,$path,$name,$password){

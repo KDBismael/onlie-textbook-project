@@ -18,13 +18,24 @@
     $debutCours = $_POST['debut'];
     $finCours = $_POST['fin'];
     $classe = $_POST['classe'];
-    $course = $_POST['saisir'];
+    $course = json_encode($_POST['editorContent']);
+    // $course = $_POST['saisir'];
 
+    // var_dump($_POST['editorContent']);
     // Insert data into the table
-    $sql = "INSERT INTO tbooks (nom, prenom, UE, date, debutCours, finCours, classe, course_note) VALUES ('$nom', '$prenom', '$UE', '$date', '$debutCours', '$finCours', '$classe', '$course')";
-
+    // $sql = "INSERT INTO tbooks (nom, prenom, UE, date, debutCours, finCours, classe, course_note) VALUES ('$nom', '$prenom', '$UE', '$date', '$debutCours', '$finCours', '$classe', '$course')";
+    $sql = "INSERT INTO tbooks (nom, prenom, UE, date, debutCours, finCours, classe, course_note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);$stmt->bindParam(1, $nom);
+    $stmt->bindParam(2, $prenom);
+    $stmt->bindParam(3, $UE);
+    $stmt->bindParam(4, $date);
+    $stmt->bindParam(5, $debutCours);
+    $stmt->bindParam(6, $finCours);
+    $stmt->bindParam(7, $classe);
+    $stmt->bindParam(8, $course);
     try {
-      $conn->query($sql);
+      // $conn->query($sql);
+      $stmt->execute();
       $success=true;
     } catch(PDOException $e) {
         echo "Error: " . $e->getMessage();
@@ -36,7 +47,9 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>saisir cours</title>    <!--le css du formulaire saisir des cours-->
+    <title>saisir cours</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <!--le css du formulaire saisir des cours-->
     <style>
 *{
   margin: 0;
@@ -53,6 +66,10 @@
   flex-direction: column;
   width: 98%;
   margin: 10px auto;
+}
+#editor{
+  height: 250px;
+  background-color: white;
 }
 /* Style général de la page */
 body {
@@ -201,7 +218,9 @@ body {
         </table>
         <div class="saisir">
           <label for="saisir">Remplissez le cahier de texte</label>
-          <textarea required name="saisir" id="saisir" cols="30" rows="15"></textarea>
+          <!-- <textarea required name="saisir" id="saisir" cols="30" rows="15"></textarea> -->
+          <input type="hidden" name="editorContent" id="editorContent">
+          <div id="editor"></div>
         </div>
         <div class="teacherList"></div>
         <div class="btn-group">
@@ -220,8 +239,20 @@ body {
       </div>
     <?php endif; ?>
   </body>
+  <!-- Include the Quill library -->
+  
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </html>
-
+<script>
+  var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+  // Retrieve the editor content and set it to the hidden input field
+  document.querySelector('form').addEventListener('submit', function() {
+    var editorContent = document.querySelector('#editor .ql-editor').innerHTML;
+    document.querySelector('#editorContent').value = editorContent;
+  });
+</script>
 <script>
   var modal = document.getElementById("myModal");
   var closeBtn = modal.getElementsByClassName("close")[0];

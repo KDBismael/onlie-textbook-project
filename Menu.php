@@ -20,6 +20,11 @@ if (!isset($_SESSION['role']) || $_SESSION['role']!=='teacher') {
       </div>
       <div class="last">
         <h1>Voici votre cahier de texte <span>en ligne</span></h1>
+        <div class="arrow-c">
+            <a href="./TableauSaisir.php" class="Arrow">
+              <img src="./assets/arrow-right-solid.svg" alt="">
+            </a>
+          </div>
       </div>
     </div>
     <!-- <div class="login-menu">
@@ -30,6 +35,22 @@ if (!isset($_SESSION['role']) || $_SESSION['role']!=='teacher') {
   </body>
 </html>
 <style>
+  .arrow-c{
+    display: flex;
+    justify-content: end;
+    margin: 0 15px;
+  }
+  .Arrow{
+    padding: 0px 20px;
+    background-color: #0083c5;
+    text-decoration: none;
+  }
+  .Arrow img{
+    width: 25px;
+    object-fit: cover;
+    height: auto;
+    fill: white;
+  }
   .last h1 span{
     color: #0083c5;
   }

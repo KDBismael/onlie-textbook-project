@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (!isset($_SESSION['role']) || $_SESSION['role']!=='admin') {
-        header("Location: ./connexion.php");
+        header("Location: ../connexion.php");
         exit();
     }
 ?>
@@ -18,7 +18,7 @@
     if ($rowCount > 0) {
         $data= $stmt->fetchAll();
     } else {
-        exit("No data found.");
+        exit("<h1 style='text-align:center;margin-top:60px;'>Pas de cours enregistré</h1>");
     }
 ?>
 
@@ -31,17 +31,16 @@
     <title>Document</title>
 </head>
 <body>
-<h1 style="text-align:center;" >voici votre <span style="color: #0083c5;" >cachier de text</span></h1>
-<div class="filters" >
-    <button onclick="showFilterInput()">Filter par nom</button>
-    <button onclick="showFilterInput()">Filter par classe</button>
-    <button onclick="showFilterInput()">Filter par matiere</button>
-    <div id="filterContainer" style="display: none; margin-left: 20px;">
-      <input type="text" id="filterInput" >
-      <button onclick="filterTable()">Filter</button>
+    <h1 style="text-align:center;" >voici votre <span style="color: #0083c5;" >cachier de text</span></h1>
+    <div class="filters" >
+        <button onclick="showFilterInput()">Filter par nom</button>
+        <button onclick="showFilterInput()">Filter par classe</button>
+        <button onclick="showFilterInput()">Filter par matiere</button>
+        <div id="filterContainer" style="display: none; margin-left: 20px;">
+        <input type="text" id="filterInput" >
+        <button onclick="filterTable()">Filter</button>
+        </div>
     </div>
-</div>
-
     <table id='dataTable'>
         <thead>
             <tr>
@@ -57,7 +56,7 @@
         </thead>
         <tbody>
             <?php foreach ($data as $row): ?>
-                <tr onclick="openModal('<?php echo $row['course_note'] ?>')">
+                <tr onclick="openModal(<?php echo htmlentities($row['course_note']); ?>+'')">
                     <td><?php echo $row['nom']; ?></td>
                     <td><?php echo $row['prenom']; ?></td>
                     <td><?php echo $row['UE']; ?></td>
@@ -65,7 +64,7 @@
                     <td><?php echo $row['debutCours']; ?></td>
                     <td><?php echo $row['finCours']; ?></td>
                     <td><?php echo $row['classe']; ?></td>
-                    <td><?php echo util::truncateText($row['course_note'],5); ?></td>
+                    <td><?php echo util::truncateText(json_decode($row['course_note']),5);?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -88,6 +87,7 @@
         function openModal(data) {
             modal.style.display = 'block';
             copyBook.innerHTML=data;
+            console.log(data)
         }
         function closeModal() {
             copyBook.innerHTML='';
@@ -111,7 +111,6 @@
                 rows[i].style.display = display ? '' : 'none';
 
             }
-            console.log(rows.length)
             if(isEmpty){
                 notCourse.style.display= 'block';
             }else{
