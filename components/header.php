@@ -8,7 +8,9 @@
 ?>
 <header>
     <div class="logo">
-        <img src="<?php echo ROOT_PATH;?>/assets/Logo-ESATIC.png" alt="Logo">
+        <a style="width: 100%;height: 100%; display:inline-block;" href="\projet cahier de texte en ligne\index.html">
+            <img src="<?php echo ROOT_PATH;?>/assets/Logo-ESATIC.png" alt="Logo">
+        </a>
     </div>
     <nav>
         <ul>
