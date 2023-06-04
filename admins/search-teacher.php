@@ -136,6 +136,12 @@
 </html>
 
 <style>
+    /* body{
+        background-image: url('../assets/rm222batch2-mind-03.jpg');
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+    } */
     .filters{
         margin: 20px 0;
     }
@@ -152,6 +158,7 @@
     table {
         border-collapse: collapse;
         width: 100%;
+        background-color: white;
     }
     
     th, td {
